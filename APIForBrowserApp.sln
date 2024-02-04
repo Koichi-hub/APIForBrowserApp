@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34408.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIForBrowserApp", "APIForBrowserApp\APIForBrowserApp.csproj", "{9C4A6908-043D-40DF-B8DA-CA82BCD3EFA7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C4A6908-043D-40DF-B8DA-CA82BCD3EFA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C4A6908-043D-40DF-B8DA-CA82BCD3EFA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C4A6908-043D-40DF-B8DA-CA82BCD3EFA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C4A6908-043D-40DF-B8DA-CA82BCD3EFA7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E3C11E4-BE97-4BC1-AE13-FFD7E0AC5240}
+	EndGlobalSection
+EndGlobal
