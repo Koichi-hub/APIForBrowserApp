@@ -1,4 +1,5 @@
 ﻿using APIForBrowserApp.Entities;
+using APIForBrowserApp.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,6 +13,12 @@ namespace APIForBrowserApp.Database.Configurations
             builder
                 .HasIndex(x => x.Login)
                 .IsUnique();
+            builder
+                .Property(x => x.Role)
+                .HasConversion(
+                    v => (int)v,
+                    v => (RolesEnum)v
+                );
         }
     }
 }

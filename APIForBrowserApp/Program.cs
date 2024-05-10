@@ -1,3 +1,6 @@
+using APIForBrowserApp.Database;
+using APIForBrowserApp.Services;
+using APIForBrowserApp.Services.Interfaces;
 using APIForBrowserApp.Settings;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -6,10 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 //settings
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection(AppSettings.SectionName));
 
+//db
+builder.Services.AddDbContext<DatabaseContext>();
+
+//services
+builder.Services.AddScoped<ITeacherService, TeacherService>();
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/login";
+        options.LoginPath = "/api/auth/login";
         options.AccessDeniedPath = options.LoginPath;
     });
 builder.Services.AddAuthorization();

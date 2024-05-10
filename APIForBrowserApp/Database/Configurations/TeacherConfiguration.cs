@@ -9,6 +9,9 @@ namespace APIForBrowserApp.Database.Configurations
         public void Configure(EntityTypeBuilder<Teacher> builder)
         {
             builder.HasKey(x => x.UserId);
+            builder.HasOne(x => x.User)
+                .WithOne()
+                .HasForeignKey<Teacher>(x => x.UserId);
         }
     }
 }

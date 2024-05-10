@@ -6,8 +6,8 @@
 
         public int Grade { get; set; }
 
-        public int TeacherId { get; set; }
+        public List<Student> Students { get; set; } = new List<Student>();
 
-        public Teacher Teacher { get; set; } = null!;
+        public List<Teacher> Teachers { get; set; } = new List<Teacher>();
     }
 }
