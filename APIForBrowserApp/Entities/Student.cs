@@ -11,5 +11,9 @@
         public string LastName { get; set; } = null!;
 
         public int Age { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public DateTime DeletedAt { get; set; }
     }
 }

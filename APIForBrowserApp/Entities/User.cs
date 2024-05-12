@@ -11,5 +11,9 @@ namespace APIForBrowserApp.Entities
         public string Login { get; set; } = null!;
 
         public string Password { get; set; } = null!;
+
+        public bool IsDeleted { get; set; }
+
+        public DateTime DeletedAt { get; set; }
     }
 }

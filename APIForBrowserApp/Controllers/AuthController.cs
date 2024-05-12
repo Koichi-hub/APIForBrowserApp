@@ -1,13 +1,11 @@
 ﻿using APIForBrowserApp.Constants;
 using APIForBrowserApp.Database;
+using APIForBrowserApp.Helpers;
 using APIForBrowserApp.Models;
-using APIForBrowserApp.Models.Teacher;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace APIForBrowserApp.Controllers
 {
@@ -30,9 +28,7 @@ namespace APIForBrowserApp.Controllers
             if (user is null)
                 return NotFound("user not found");
 
-            var md5 = MD5.Create();
-            var hashedPassword = BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(loginRequest.Password))).Replace("-", "");
-            if (user.Password != hashedPassword)
+            if (user.Password != UserPasswordHelper.HashPassword(loginRequest.Password))
                 return BadRequest("wrong password");
 
             var claims = new List<Claim>()

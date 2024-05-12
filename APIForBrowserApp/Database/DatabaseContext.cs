@@ -1,11 +1,9 @@
 ﻿using APIForBrowserApp.Database.Configurations;
 using APIForBrowserApp.Entities;
-using APIForBrowserApp.Models;
+using APIForBrowserApp.Helpers;
 using APIForBrowserApp.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace APIForBrowserApp.Database
 {
@@ -36,20 +34,18 @@ namespace APIForBrowserApp.Database
             new TeacherConfiguration().Configure(modelBuilder.Entity<Teacher>());
             new GroupConfiguration().Configure(modelBuilder.Entity<Group>());
 
-            var md5 = MD5.Create();
-            var hashedPassword = BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes("kek"))).Replace("-", "");
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 1,
                 Role = Enums.RolesEnum.Admin,
                 Login = "admin",
-                Password = hashedPassword,
+                Password = UserPasswordHelper.HashPassword("kek"),
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             });
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public override int SaveChanges()
         {
             var entries = ChangeTracker
                 .Entries()
@@ -66,7 +62,7 @@ namespace APIForBrowserApp.Database
                     ((BaseEntity)entityEntry.Entity).CreatedAt = DateTime.UtcNow;
             }
 
-            return base.SaveChangesAsync(cancellationToken);
+            return base.SaveChanges();
         }
     }
 }

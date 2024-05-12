@@ -1,9 +1,12 @@
-﻿using APIForBrowserApp.Entities;
+﻿using APIForBrowserApp.Models;
+using APIForBrowserApp.Models.Student;
 
 namespace APIForBrowserApp.Services.Interfaces
 {
     public interface IStudentService
     {
-        public Student CreateStudent();
+        AppResult<CreateStudentResponse> CreateStudent(CreateStudentRequest createStudentRequest);
+
+        AppResult<GetStudentResponse> GetStudent(int studentId);
     }
 }

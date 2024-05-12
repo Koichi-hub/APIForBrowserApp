@@ -12,8 +12,13 @@ builder.Services.Configure<AppSettings>(builder.Configuration.GetSection(AppSett
 //db
 builder.Services.AddDbContext<DatabaseContext>();
 
+//mapper
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 //services
 builder.Services.AddScoped<ITeacherService, TeacherService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IGroupService, GroupService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
