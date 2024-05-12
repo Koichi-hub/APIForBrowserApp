@@ -1,8 +1,12 @@
-﻿using APIForBrowserApp.Models;
+﻿using APIForBrowserApp.Constants;
+using APIForBrowserApp.Helpers;
+using APIForBrowserApp.Models;
 using APIForBrowserApp.Models.Student;
+using APIForBrowserApp.Models.Teacher;
 using APIForBrowserApp.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace APIForBrowserApp.Controllers
 {
@@ -30,7 +34,32 @@ namespace APIForBrowserApp.Controllers
         [HttpGet("{studentId}")]
         public AppResult<GetStudentResponse> GetStudent([FromRoute] int studentId)
         {
+            var user = HttpContext.User;
+            if (user.IsInRole("Student") && !(user.FindFirstValue(ClaimsNames.UserId) == studentId.ToString()))
+            {
+                HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
+                return AppResultFactory.Create<GetStudentResponse>(StatusCodes.Status403Forbidden, string.Empty);
+            }
+
             var result = studentService.GetStudent(studentId);
+            HttpContext.Response.StatusCode = result.Status;
+            return result;
+        }
+
+        [Authorize(Roles = "Admin,Teacher")]
+        [HttpPut]
+        public AppResult<UpdateStudentResponse> UpdateStudent([FromBody] UpdateStudentRequest updateStudentRequest)
+        {
+            var result = studentService.UpdateStudent(updateStudentRequest);
+            HttpContext.Response.StatusCode = result.Status;
+            return result;
+        }
+
+        [Authorize(Roles = "Admin,Teacher")]
+        [HttpDelete("{studentId}")]
+        public AppResult<DeleteStudentResponse> DeleteStudent([FromRoute] int studentId)
+        {
+            var result = studentService.DeleteStudent(studentId);
             HttpContext.Response.StatusCode = result.Status;
             return result;
         }

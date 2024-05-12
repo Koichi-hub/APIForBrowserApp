@@ -3,6 +3,7 @@ using APIForBrowserApp.Entities;
 using APIForBrowserApp.Helpers;
 using APIForBrowserApp.Models;
 using APIForBrowserApp.Models.Student;
+using APIForBrowserApp.Models.Teacher;
 using APIForBrowserApp.Services.Interfaces;
 using AutoMapper;
 
@@ -62,6 +63,43 @@ namespace APIForBrowserApp.Services
             }
 
             result.Data = mapper.Map<GetStudentResponse>(student);
+            return result;
+        }
+
+        public AppResult<UpdateStudentResponse> UpdateStudent(UpdateStudentRequest updateStudentRequest)
+        {
+            var result = AppResultFactory.Create<UpdateStudentResponse>();
+
+            var student = databaseContext.Students.FirstOrDefault(x => x.UserId == updateStudentRequest.UserId);
+            if (student is null)
+            {
+                result.Status = StatusCodes.Status404NotFound;
+                result.Message = $"student is not found, studentId = {updateStudentRequest.UserId}";
+                return result;
+            }
+
+            mapper.Map(updateStudentRequest, student);
+            databaseContext.Students.Update(student);
+            databaseContext.SaveChanges();
+            result.Data = mapper.Map<UpdateStudentResponse>(student);
+            return result;
+        }
+
+        public AppResult<DeleteStudentResponse> DeleteStudent(int studentId)
+        {
+            var result = AppResultFactory.Create<DeleteStudentResponse>();
+            var student = databaseContext.Students.FirstOrDefault(x => x.UserId == studentId);
+            if (student is null)
+            {
+                result.Status = StatusCodes.Status404NotFound;
+                result.Message = $"student is not found, studentId = {studentId}";
+                return result;
+            }
+            student.IsDeleted = true;
+            student.DeletedAt = DateTime.UtcNow;
+            databaseContext.Students.Update(student);
+            databaseContext.SaveChanges();
+            result.Data = mapper.Map<DeleteStudentResponse>(student);
             return result;
         }
     }

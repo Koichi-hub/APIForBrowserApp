@@ -1,6 +1,6 @@
 ﻿namespace APIForBrowserApp.Models.Group
 {
-    public class CreateGroupResponse
+    public class UpdateGroupResponse
     {
         public int Id { get; set; }
 

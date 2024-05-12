@@ -98,6 +98,7 @@ namespace APIForBrowserApp.Services
             teacher.DeletedAt = DateTime.UtcNow;
             databaseContext.Teachers.Update(teacher);
             databaseContext.SaveChanges();
+            result.Data = mapper.Map<DeleteTeacherResponse>(teacher);
             return result;
         }
     }

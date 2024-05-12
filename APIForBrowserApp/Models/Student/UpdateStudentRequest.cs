@@ -1,6 +1,6 @@
-﻿namespace APIForBrowserApp.Models.Teacher
+﻿namespace APIForBrowserApp.Models.Student
 {
-    public class UpdateTeacherResponse
+    public class UpdateStudentRequest
     {
         public int UserId { get; set; }
 

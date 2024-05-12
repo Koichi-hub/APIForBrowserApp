@@ -1,6 +1,6 @@
-﻿namespace APIForBrowserApp.Models.Teacher
+﻿namespace APIForBrowserApp.Models.Student
 {
-    public class UpdateTeacherResponse
+    public class DeleteStudentResponse
     {
         public int UserId { get; set; }
 
@@ -9,5 +9,9 @@
         public string LastName { get; set; } = null!;
 
         public int Age { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public DateTime DeletedAt { get; set; }
     }
 }

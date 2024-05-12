@@ -1,4 +1,5 @@
 ﻿using APIForBrowserApp.Entities;
+using APIForBrowserApp.Models.Group;
 using APIForBrowserApp.Models.Student;
 using APIForBrowserApp.Models.Teacher;
 using AutoMapper;
@@ -23,6 +24,8 @@ namespace APIForBrowserApp.Services
             //update
             CreateMap<UpdateTeacherRequest, Teacher>();
             CreateMap<Teacher, UpdateTeacherResponse>();
+            //delete
+            CreateMap<Teacher, DeleteTeacherResponse>();
         }
 
         private void StudentMapping()
@@ -31,12 +34,22 @@ namespace APIForBrowserApp.Services
             CreateMap<Student, CreateStudentResponse>();
             //get
             CreateMap<Student, GetStudentResponse>();
+            //update
+            CreateMap<UpdateStudentRequest, Student>();
+            CreateMap<Student, UpdateStudentResponse>();
+            //delete
+            CreateMap<Student, DeleteStudentResponse>();
         }
 
         private void GroupMapping()
         {
             //create
-            CreateMap<Group, CreateStudentResponse>();
+            CreateMap<Group, CreateGroupResponse>();
+            //get
+            CreateMap<Group, GetGroupResponse>();
+            //update
+            CreateMap<UpdateGroupRequest, Group>();
+            CreateMap<Group, UpdateGroupResponse>();
         }
     }
 }

@@ -25,5 +25,32 @@ namespace APIForBrowserApp.Controllers
             HttpContext.Response.StatusCode = result.Status;
             return result;
         }
+
+        [Authorize(Roles = "Admin,Teacher")]
+        [HttpGet("{groupId}")]
+        public AppResult<GetGroupResponse> GetGroup([FromRoute] int groupId)
+        {
+            var result = groupService.GetGroup(groupId);
+            HttpContext.Response.StatusCode = result.Status;
+            return result;
+        }
+
+        [Authorize(Roles = "Admin,Teacher")]
+        [HttpPut]
+        public AppResult<UpdateGroupResponse> UpdateGroup([FromBody] UpdateGroupRequest updateGroupRequest)
+        {
+            var result = groupService.UpdateGroup(updateGroupRequest);
+            HttpContext.Response.StatusCode = result.Status;
+            return result;
+        }
+
+        [Authorize(Roles = "Admin,Teacher")]
+        [HttpDelete("{groupId}")]
+        public AppResult<object> DeleteGroup([FromRoute] int groupId)
+        {
+            var result = groupService.DeleteGroup(groupId);
+            HttpContext.Response.StatusCode = result.Status;
+            return result;
+        }
     }
 }

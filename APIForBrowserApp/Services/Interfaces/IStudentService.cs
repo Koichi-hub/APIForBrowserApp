@@ -8,5 +8,9 @@ namespace APIForBrowserApp.Services.Interfaces
         AppResult<CreateStudentResponse> CreateStudent(CreateStudentRequest createStudentRequest);
 
         AppResult<GetStudentResponse> GetStudent(int studentId);
+
+        AppResult<UpdateStudentResponse> UpdateStudent(UpdateStudentRequest updateStudentRequest);
+
+        AppResult<DeleteStudentResponse> DeleteStudent(int studentId);
     }
 }
