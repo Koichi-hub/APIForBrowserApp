@@ -39,7 +39,7 @@ namespace APIForBrowserApp.Database
                 Id = 1,
                 Role = Enums.RolesEnum.Admin,
                 Login = "admin",
-                Password = UserPasswordHelper.HashPassword("kek"),
+                Password = UserPasswordHelper.HashPassword("admin"),
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
             });

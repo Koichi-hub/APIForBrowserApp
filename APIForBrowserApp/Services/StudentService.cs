@@ -27,6 +27,14 @@ namespace APIForBrowserApp.Services
         {
             var result = AppResultFactory.Create<CreateStudentResponse>();
 
+            var isLoginExisted = databaseContext.Users.Any(x => x.Login == createStudentRequest.Login);
+            if (isLoginExisted)
+            {
+                result.Status = StatusCodes.Status400BadRequest;
+                result.Message = "login is already taken";
+                return result;
+            }
+
             var user = new User
             {
                 Login = createStudentRequest.Login,

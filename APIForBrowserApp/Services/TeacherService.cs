@@ -2,6 +2,7 @@
 using APIForBrowserApp.Entities;
 using APIForBrowserApp.Helpers;
 using APIForBrowserApp.Models;
+using APIForBrowserApp.Models.Student;
 using APIForBrowserApp.Models.Teacher;
 using APIForBrowserApp.Services.Interfaces;
 using AutoMapper;
@@ -41,6 +42,14 @@ namespace APIForBrowserApp.Services
         public AppResult<CreateTeacherResponse> CreateTeacher(CreateTeacherRequest createTeacherRequest)
         {
             var result = AppResultFactory.Create<CreateTeacherResponse>();
+
+            var isLoginExisted = databaseContext.Users.Any(x => x.Login == createTeacherRequest.Login);
+            if (isLoginExisted)
+            {
+                result.Status = StatusCodes.Status400BadRequest;
+                result.Message = "login is already taken";
+                return result;
+            }
 
             var user = new User
             {

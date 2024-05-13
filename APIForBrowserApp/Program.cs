@@ -16,6 +16,7 @@ builder.Services.AddDbContext<DatabaseContext>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 //services
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IGroupService, GroupService>();

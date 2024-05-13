@@ -1,7 +1,6 @@
 ﻿using APIForBrowserApp.Constants;
-using APIForBrowserApp.Database;
-using APIForBrowserApp.Helpers;
 using APIForBrowserApp.Models;
+using APIForBrowserApp.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -13,34 +12,32 @@ namespace APIForBrowserApp.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly DatabaseContext databaseContext;
+        private readonly IAuthService authService;
 
-        public AuthController(DatabaseContext databaseContext)
+        public AuthController(IAuthService authService)
         {
-            this.databaseContext = databaseContext;
+            this.authService = authService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginRequest loginRequest)
+        public async Task<AppResult<LoginResponse>> Login(LoginRequest loginRequest)
         {
-            var user = new Entities.User();
-            user = databaseContext.Users.FirstOrDefault(x => x.Login == loginRequest.Login);
-            if (user is null)
-                return NotFound("user not found");
-
-            if (user.Password != UserPasswordHelper.HashPassword(loginRequest.Password))
-                return BadRequest("wrong password");
+            var result = authService.Login(loginRequest);
+            HttpContext.Response.StatusCode = result.Status;
+            if (result.Status != StatusCodes.Status200OK)
+                return result;
 
             var claims = new List<Claim>()
             {
-                new(ClaimsIdentity.DefaultRoleClaimType, user.Role.ToString()),
-                new(ClaimsNames.UserId, user.Id.ToString()),
-                new(ClaimsNames.Login, user.Login)
+                new(ClaimsIdentity.DefaultRoleClaimType, result.Data!.Role.ToString()),
+                new(ClaimsNames.UserId, result.Data.Id.ToString()),
+                new(ClaimsNames.Login, loginRequest.Login)
             };
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
             await HttpContext.SignInAsync(principal);
-            return Ok();
+
+            return result;
         }
 
         [HttpGet]

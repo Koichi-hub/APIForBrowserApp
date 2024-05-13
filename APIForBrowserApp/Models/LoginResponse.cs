@@ -1,10 +1,12 @@
-﻿namespace APIForBrowserApp.Models.Group
+﻿using APIForBrowserApp.Enums;
+
+namespace APIForBrowserApp.Models
 {
-    public class UpdateGroupResponse
+    public class LoginResponse
     {
         public int Id { get; set; }
 
-        public int Grade { get; set; }
+        public RolesEnum Role { get; set; }
 
         public DateTime CreatedAt { get; set; }
 

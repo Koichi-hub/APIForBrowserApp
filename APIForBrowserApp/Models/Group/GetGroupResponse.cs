@@ -12,5 +12,9 @@ namespace APIForBrowserApp.Models.Group
         public List<GetStudentResponse> Students { get; set; } = new List<GetStudentResponse>();
 
         public List<GetTeacherResponse> Teachers { get; set; } = new List<GetTeacherResponse>();
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
     }
 }

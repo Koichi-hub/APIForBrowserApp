@@ -1,4 +1,5 @@
 ﻿using APIForBrowserApp.Entities;
+using APIForBrowserApp.Models;
 using APIForBrowserApp.Models.Group;
 using APIForBrowserApp.Models.Student;
 using APIForBrowserApp.Models.Teacher;
@@ -13,6 +14,8 @@ namespace APIForBrowserApp.Services
             TeacherMapping();
             StudentMapping();
             GroupMapping();
+
+            CreateMap<User, LoginResponse>();
         }
 
         private void TeacherMapping()
