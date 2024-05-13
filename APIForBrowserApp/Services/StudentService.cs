@@ -6,6 +6,9 @@ using APIForBrowserApp.Models.Student;
 using APIForBrowserApp.Models.Teacher;
 using APIForBrowserApp.Services.Interfaces;
 using AutoMapper;
+using LinqKit;
+using Microsoft.EntityFrameworkCore;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace APIForBrowserApp.Services
 {
@@ -71,6 +74,38 @@ namespace APIForBrowserApp.Services
             }
 
             result.Data = mapper.Map<GetStudentResponse>(student);
+            return result;
+        }
+
+        public AppResult<FilterStudentsResponse> FilterStudents(FilterStudentsRequest filterStudentsRequest)
+        {
+            var result = AppResultFactory.Create<FilterStudentsResponse>();
+
+            if (filterStudentsRequest.Page <= 0 || filterStudentsRequest.PageCount <= 0)
+            {
+                result.Status = StatusCodes.Status400BadRequest;
+                result.Message = "bad request, page <= 0 || pageCount <= 0";
+                return result;
+            }
+
+            var query = databaseContext.Students.AsQueryable(); 
+            var predicate = PredicateBuilder.New(query);
+            if (!string.IsNullOrWhiteSpace(filterStudentsRequest.FirstName))
+                predicate.Or(x => EF.Functions.Like(x.FirstName, $"%{filterStudentsRequest.FirstName}%"));
+            if (!string.IsNullOrWhiteSpace(filterStudentsRequest.LastName))
+                predicate.Or(x => EF.Functions.Like(x.LastName, $"%{filterStudentsRequest.LastName}%"));
+            if (predicate.IsStarted)
+                query = query.Where(predicate);
+            var students = query.Skip((filterStudentsRequest.Page - 1) * filterStudentsRequest.PageCount).Take(filterStudentsRequest.PageCount).ToList();
+            var totalPages = (int)Math.Ceiling(query.Count() / (double)filterStudentsRequest.PageCount);
+
+            result.Data = new FilterStudentsResponse
+            {
+                Students = mapper.Map<List<GetStudentResponse>>(students),
+                Page = filterStudentsRequest.Page,
+                PageCount = filterStudentsRequest.PageCount,
+                PageTotal = totalPages
+            };
             return result;
         }
 

@@ -1,4 +1,5 @@
 ﻿using APIForBrowserApp.Constants;
+using APIForBrowserApp.Entities;
 using APIForBrowserApp.Helpers;
 using APIForBrowserApp.Models;
 using APIForBrowserApp.Models.Student;
@@ -42,6 +43,15 @@ namespace APIForBrowserApp.Controllers
             }
 
             var result = studentService.GetStudent(studentId);
+            HttpContext.Response.StatusCode = result.Status;
+            return result;
+        }
+
+        [Authorize(Roles = "Admin,Teacher")]
+        [HttpPost("filter")]
+        public AppResult<FilterStudentsResponse> FilterStudents([FromBody] FilterStudentsRequest filterStudentsRequest)
+        {
+            var result = studentService.FilterStudents(filterStudentsRequest);
             HttpContext.Response.StatusCode = result.Status;
             return result;
         }

@@ -9,6 +9,8 @@ namespace APIForBrowserApp.Services.Interfaces
 
         AppResult<GetStudentResponse> GetStudent(int studentId);
 
+        AppResult<FilterStudentsResponse> FilterStudents(FilterStudentsRequest filterStudentsRequest);
+
         AppResult<UpdateStudentResponse> UpdateStudent(UpdateStudentRequest updateStudentRequest);
 
         AppResult<DeleteStudentResponse> DeleteStudent(int studentId);
